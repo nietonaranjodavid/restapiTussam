@@ -13,7 +13,7 @@ const ticketSchema = new Schema({
     collection:'tickets'
 })
 
-const pasajerosSchema = new Schema({
+const pasajeroSchema = new Schema({
     _nombre: String,
     _apellido: String,
     _dni: String,
@@ -23,4 +23,4 @@ const pasajerosSchema = new Schema({
     collection:'pasajeros'
 })
 export const Tickets = model('tickets', ticketSchema)
-export const Pasajeros = model('pasajeros', pasajerosSchema)
+export const Pasajeros = model('pasajeros', pasajeroSchema)

@@ -246,15 +246,25 @@ class TicketRoutes {
         return this._router;
     }
     misRutas() {
+        //devuelve todos los documentos de la coleccion ticket
         this._router.get('/', this.getTickets);
+        //devuelve todos los documentos de la colección pasajeros
         this._router.get('/pasajeros', this.getPasajeros);
+        //añade un nuevo ticket a la coleccion mediante un get
         this._router.get('/nuevoT/:id&:linea&:tarjeta&:precio&:cantidad&:fecha', this.nuevoTicketGet);
+        //añade un nuevo ticket mediante un post
         this._router.post('/nuevoT1', this.nuevoTicketPost);
-        this._router.get('/nuevoP/:nombre&:nombre&:apellidos&:dni&:edad', this.nuevoPasajeroGet);
+        //añade un nuevo pasajero mediante un get    
+        this._router.get('/nuevoP/:nombre&:apellidos&:dni&:edad', this.nuevoPasajeroGet);
+        //añade un nuevo pasajero mediante un post
         this._router.post('/nuevoP1', this.nuevoPasajeroPost);
+        //eliminar un documento de la coleccion ticket indicado su ID
         this._router.get('/borrar/:id', this.getDelete);
+        //modifica cualquier documento mediante un post indicado su ID 
         this._router.post('/actualiza/:id', this.actualiza);
+        //modifica cualquier documento mediante un post indicado su ID 
         this._router.post('/pasajero/actualizar/:dni', this.updatePasajeros);
+        //muestra un ticket en especifico
         this.router.get('/id', this.getTicket);
     }
 }

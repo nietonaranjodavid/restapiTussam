@@ -41,6 +41,18 @@ class TicketRoutes {
         await db.desconectarBD()
         res.json(p)
     }
+
+    private getPasajero = async (req: Request, res: Response) => {
+        const { dni } = req.params
+        await db.conectarBD()
+
+        const p = await Tickets.find(
+                { _dni: dni }
+            )
+        
+        await db.desconectarBD()
+        res.json(p)
+    }
   
 
 
@@ -140,7 +152,7 @@ class TicketRoutes {
             _nombre: nombre,
             _apellido: apellido,
             _dni: dni,
-            _edad: parseInt(edad)
+            _edad: edad
         }
         console.log(dSchema)
         const oSchema = new Pasajeros(dSchema)
@@ -205,6 +217,26 @@ class TicketRoutes {
             })
         await db.desconectarBD()
     }
+
+    private getDeleteP = async (req: Request, res: Response) => {
+        const { dni } = req.params
+        await db.conectarBD()
+        await Pasajeros.findOneAndDelete(
+            { _dni: dni }, 
+            (err: any, doc) => {
+                if(err) console.log(err)
+                else{
+                    if (doc == null) {
+                        console.log(`No encontrado`)
+                        res.send(`No encontrado`)
+                    }else {
+                        console.log('Borrado correcto: '+ doc)
+                        res.send('Borrado correcto: '+ doc)
+                    }
+                }
+            })
+        await db.desconectarBD()
+    }
     
     private actualiza = async (req: Request, res: Response) => {
         const {id} = req.params
@@ -245,7 +277,7 @@ class TicketRoutes {
     }
 
 
-    private updatePasajeros = async (req: Request, res: Response) => {
+    private updatePasajero = async (req: Request, res: Response) => {
         const { dni } = req.params
         const { nombre, apellido, edad } = req.body
         await db.conectarBD()
@@ -283,15 +315,27 @@ class TicketRoutes {
 
 
     misRutas(){
+        //devuelve todos los documentos de la coleccion ticket
         this._router.get('/', this.getTickets)
+        //devuelve todos los documentos de la colección pasajeros
         this._router.get('/pasajeros', this.getPasajeros)
+        //añade un nuevo ticket a la coleccion mediante un get
         this._router.get('/nuevoT/:id&:linea&:tarjeta&:precio&:cantidad&:fecha', this.nuevoTicketGet)
+        //añade un nuevo ticket mediante un post
         this._router.post('/nuevoT1', this.nuevoTicketPost)
-        this._router.get('/nuevoP/:nombre&:nombre&:apellidos&:dni&:edad', this.nuevoPasajeroGet)
+        //añade un nuevo pasajero mediante un get    
+        this._router.get('/nuevoP/:nombre&:apellidos&:dni&:edad', this.nuevoPasajeroGet)
+        //añade un nuevo pasajero mediante un post
         this._router.post('/nuevoP1', this.nuevoPasajeroPost)
+        //eliminar un documento de la coleccion ticket indicado su ID
         this._router.get('/borrar/:id', this.getDelete)
+        this._router.get('/pasajero/borrar/:dni', this.getDeleteP)
+        //modifica cualquier documento mediante un post indicado su ID 
         this._router.post('/actualiza/:id', this.actualiza)
-        this._router.post('/pasajero/actualizar/:dni', this.updatePasajeros)
+         //modifica cualquier documento mediante un post indicado su ID 
+        this._router.post('/pasajeros/actualizar/:dni', this.updatePasajero)
+        //muestra un ticket en especifico
+        this._router.get('/dni', this.getPasajero)
         this.router.get('/id', this.getTicket)
     }
 }

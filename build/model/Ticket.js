@@ -13,7 +13,7 @@ const ticketSchema = new mongoose_1.Schema({
 }, {
     collection: 'tickets'
 });
-const pasajerosSchema = new mongoose_1.Schema({
+const pasajeroSchema = new mongoose_1.Schema({
     _nombre: String,
     _apellido: String,
     _dni: String,
@@ -22,4 +22,4 @@ const pasajerosSchema = new mongoose_1.Schema({
     collection: 'pasajeros'
 });
 exports.Tickets = mongoose_1.model('tickets', ticketSchema);
-exports.Pasajeros = mongoose_1.model('pasajeros', pasajerosSchema);
+exports.Pasajeros = mongoose_1.model('pasajeros', pasajeroSchema);
